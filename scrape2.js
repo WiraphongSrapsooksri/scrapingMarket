@@ -7,17 +7,21 @@ async function fetchMarketDetails(url) {
     const response = await axios.get(url);
     const html = response.data;
     const $ = cheerio.load(html);
-
-    // Extract specific elements as needed; example extracting some specific details
-    const details = $('.elementor-widget-text-editor p').first().text().trim(); // Example detail, adjust selector as needed
+    const marketDetails = {};
     const additionalInfo = [];
 
-    // Example of extracting list items, adjust selector as needed
+    marketDetails.title = $('.elementor-heading-title').first().text().trim();
+    marketDetails.description = $('.elementor-widget-text-editor p').first().text().trim();
+    marketDetails.rentalCost = $('.elementor-widget-text-editor:contains("ค่าเช่า") p').text().trim();
+    marketDetails.location = $('.elementor-widget-text-editor:contains("สถานที่") p').text().trim();
+    marketDetails.facebookLink = $('.elementor-widget-text-editor a[href*="facebook"]').attr('href');
+
+    
     $('.elementor-widget-text-editor ul li').each((i, element) => {
       additionalInfo.push($(element).text().trim());
     });
 
-    return { details, additionalInfo };
+    return { marketDetails, additionalInfo };
   } catch (error) {
     console.error('Error fetching individual market details:', error);
     return null;
