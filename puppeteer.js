@@ -15,13 +15,6 @@ async function scrapeMarkets() {
   try {
     await page.goto(baseUrl, { waitUntil: 'networkidle2' });
 
-    // Click the accept cookies button if present
-    const acceptCookiesButton = await page.$('#wt-cli-accept-all-btn');
-    if (acceptCookiesButton) {
-      await acceptCookiesButton.click();
-      await page.waitForTimeout(2000); // Wait for 2 seconds to ensure the action is processed
-    }
-
     while (currentPage <= maxPages) {
       console.log(`Scraping page ${currentPage}...`);
 
@@ -41,16 +34,21 @@ async function scrapeMarkets() {
       allMarkets.push(...markets);
 
       // Check if there is a "next" button and click it
-      const nextButton = await page.$('.jet-filters-pagination__item.prev-next.next');
-
-      if (nextButton && currentPage < maxPages) {
-        currentPage++;
-        await page.evaluate((button) => button.scrollIntoView(), nextButton); // Scroll to the next button
-        await nextButton.click();
-        await page.waitForTimeout(2000); // Wait for 2 seconds to allow content to load
-      } else {
-        break; // Exit the loop if no "next" button is found or max pages reached
-      }
+    //   $('.jet-filters-pagination__item.prev-next.next');
+      const link = $(element)
+      .find(".elementor-post__thumbnail__link")
+      .attr("href");
+      
+    if (link) marketLinks.push(link);
+    //   if (nextButton && currentPage < maxPages) {
+    //     currentPage++;
+    //     await Promise.all([
+    //       nextButton.click(),
+    //       page.waitForNavigation({ waitUntil: 'networkidle2' }),
+    //     ]);
+    //   } else {
+    //     break; // Exit the loop if no "next" button is found or max pages reached
+    //   }
     }
 
     console.log('Finished scraping. Saving data...');
