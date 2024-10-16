@@ -1,0 +1,57 @@
+[
+  {
+    "stallNumber": "หมายเลขแผงที่ T001",
+    "zone": "A",
+    "areaType": "แผงค้า",
+    "size": "A",
+    "price": "฿ 3,150.00",
+    "discountText": "จองวันนี้ลด 50% ชำระค่าเช่าเพียง",
+    "originalPrice": "฿ 6,300.00",
+    "discountedPrice": "฿ 3,150.00",
+    "imageUrl": "https%3A%2F%2Fbucket.ex10.tech%2Fimages%2F37f3803d-93f0-11ee-97d4-0242ac12000b%2ForiginalContentUrl.jpg"
+  },
+  {
+    "stallNumber": "หมายเลขแผงที่ T006",
+    "zone": "A",
+    "areaType": "แผงค้า",
+    "size": "A",
+    "price": "฿ 3,150.00",
+    "discountText": "จองวันนี้ลด 50% ชำระค่าเช่าเพียง",
+    "originalPrice": "฿ 6,300.00",
+    "discountedPrice": "฿ 3,150.00",
+    "imageUrl": "https%3A%2F%2Fbucket.ex10.tech%2Fimages%2F0e975734-93f0-11ee-97d4-0242ac12000b%2ForiginalContentUrl.jpg"
+  },
+  {
+    "stallNumber": "หมายเลขแผงที่ T009",
+    "zone": "A",
+    "areaType": "แผงค้า",
+    "size": "A",
+    "price": "฿ 3,150.00",
+    "discountText": "จองวันนี้ลด 50% ชำระค่าเช่าเพียง",
+    "originalPrice": "฿ 6,300.00",
+    "discountedPrice": "฿ 3,150.00",
+    "imageUrl": "https%3A%2F%2Fbucket.ex10.tech%2Fimages%2Ff97baf48-93ef-11ee-97d4-0242ac12000b%2ForiginalContentUrl.jpg"
+  },
+  {
+    "stallNumber": "หมายเลขแผงที่ T020",
+    "zone": "A",
+    "areaType": "แผงค้า",
+    "size": "A",
+    "price": "฿ 3,150.00",
+    "discountText": "จองวันนี้ลด 50% ชำระค่าเช่าเพียง",
+    "originalPrice": "฿ 6,300.00",
+    "discountedPrice": "฿ 3,150.00",
+    "imageUrl": "https%3A%2F%2Fbucket.ex10.tech%2Fimages%2Fb03457bb-93ef-11ee-97d4-0242ac12000b%2ForiginalContentUrl.jpg"
+  },
+  {
+    "stallNumber": "หมายเลขแผงที่ T026",
+    "zone": "A",
+    "areaType": "แผงค้า",
+    "size": "A",
+    "price": "฿ 3,150.00",
+    "discountText": "จองวันนี้ลด 50% ชำระค่าเช่าเพียง",
+    "originalPrice": "฿ 6,300.00",
+    "discountedPrice": "฿ 3,150.00",
+    "imageUrl": "https%3A%2F%2Fbucket.ex10.tech%2Fimages%2F80b84b63-93ef-11ee-97d4-0242ac12000b%2ForiginalContentUrl.jpg"
+  }
+]

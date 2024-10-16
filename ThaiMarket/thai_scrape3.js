@@ -21,7 +21,6 @@ async function fetchMarketList(browser, page) {
           "div.w-full.h-full.relative"
         );
 
-        // เลือก span ที่สองที่อยู่ภายใน parent element
         const marketAddress =
           parentElement
             .querySelectorAll("span.ml-1.truncate.text-sm")[1]
@@ -31,24 +30,15 @@ async function fetchMarketList(browser, page) {
           element
             .querySelector("p.absolute span.text-lg.font-bold")
             ?.textContent.trim() || "";
-        // const urlimageProfile =
-        //   element.querySelector("a img")?.getAttribute("src") || "";
 
-        // const imageUrlElement = document.querySelector("a img");
-        // let imageUrl = imageUrlElement?.getAttribute("src") || "";
-
-        // if (imageUrl) {
-        //   // แปลงลิงก์ที่เข้ารหัสเป็นลิงก์ที่ใช้งานได้จริง
-        //   imageUrl = decodeURIComponent(
-        //     imageUrl.split("?url=")[1].split("&")[0]
-        //   );
-        // }
-        // ดึงค่า src ของรูปภาพและถอดรหัส URL
-        let imageUrl = element.querySelector("a img")?.getAttribute("src") || "";
+        let imageUrl =
+          element.querySelector("a img")?.getAttribute("src") || "";
         if (imageUrl) {
-          imageUrl = decodeURIComponent(imageUrl.split("?url=")[1]?.split("&")[0]);
+          imageUrl = decodeURIComponent(
+            imageUrl.split("?url=")[1]?.split("&")[0]
+          );
         }
-        
+
         const linkDetail =
           "https://thaimarket.biz" +
           (element.querySelector("a")?.getAttribute("href") || "");
@@ -58,7 +48,7 @@ async function fetchMarketList(browser, page) {
           marketRating,
           marketAddress,
           marketPrice,
-          urlimageProfile:imageUrl,
+          urlimageProfile: imageUrl,
           linkDetail,
           detailMarket: [],
         };
@@ -94,7 +84,7 @@ async function fetchMarketDetails(browser, market) {
 
     const googleMapLink = await pageInstance.evaluate(() => {
       const linkElement = document.querySelector('a[href*="google.com/maps"]');
-      return linkElement ? linkElement.href : null; 
+      return linkElement ? linkElement.href : null;
     });
 
     const typeOfShops = await pageInstance.$$eval(
@@ -175,37 +165,66 @@ async function fetchMarketDetails(browser, market) {
       };
     });
 
-    const marketLocation = await pageInstance.evaluate(() => {
-      const locationElement = document.querySelector(
-        "div.rounded-md.border.border-card-border.bg-white.p-4 h2.text-xl"
-      );
-      if (locationElement) {
-        const container = locationElement.parentElement;
-        const nearbyPlaces = Array.from(
-          container.querySelectorAll("ul.list-disc li")
-        ).map((li) => li.textContent.trim());
-        const mapIframe =
-          container.querySelector("iframe")?.getAttribute("src") || "";
+    const nearbyPlaces = await pageInstance.evaluate(() => {
+      const nearbyPlacesList = document.querySelector("p.font-bold + ul");
 
-        return {
-          nearbyLocations: nearbyPlaces,
-          mapIframe,
-        };
-      }
-      return null;
+      const nearbyPlaces = nearbyPlacesList
+        ? Array.from(nearbyPlacesList.querySelectorAll("li")).map((li) =>
+            li.textContent.trim()
+          )
+        : [];
+
+      return nearbyPlaces;
     });
 
     const marketContract = await pageInstance.evaluate(() => {
-      const startPrice = document.querySelector('h2.flex span.text-xl.font-semibold')?.textContent.trim() || '-';
-      const note = document.querySelector('div.my-5')?.textContent.trim() || '-';
-      const initialCost = document.querySelector('div.my-3.flex.justify-between:nth-child(4) div:nth-child(2)')?.textContent.trim() || '-';
-      const insurancePremium = document.querySelector('div.my-3.flex.justify-between:nth-child(5) div:nth-child(2)')?.textContent.trim() || '-';
-      const advanceRent = document.querySelector('div.my-3.flex.justify-between:nth-child(6) div:nth-child(2)')?.textContent.trim() || '-';
-      const waterFee = document.querySelector('div.my-3.flex.justify-between:nth-child(7) div:nth-child(2)')?.textContent.trim() || '-';
-      const electricityBill = document.querySelector('div.my-3.flex.justify-between:nth-child(8) div:nth-child(2)')?.textContent.trim() || '-';
-      const otherExpenses = document.querySelector('div.my-3.flex.justify-between:nth-child(9) div:nth-child(2)')?.textContent.trim() || '-';
+      const startPrice =
+        document
+          .querySelector("h2.flex span.text-xl.font-semibold")
+          ?.textContent.trim() || "-";
+      const note =
+        document.querySelector("div.my-5")?.textContent.trim() || "-";
+      const initialCost =
+        document
+          .querySelector(
+            "div.my-3.flex.justify-between:nth-child(4) div:nth-child(2)"
+          )
+          ?.textContent.trim() || "-";
+      const insurancePremium =
+        document
+          .querySelector(
+            "div.my-3.flex.justify-between:nth-child(5) div:nth-child(2)"
+          )
+          ?.textContent.trim() || "-";
+      const advanceRent =
+        document
+          .querySelector(
+            "div.my-3.flex.justify-between:nth-child(6) div:nth-child(2)"
+          )
+          ?.textContent.trim() || "-";
+      const waterFee =
+        document
+          .querySelector(
+            "div.my-3.flex.justify-between:nth-child(7) div:nth-child(2)"
+          )
+          ?.textContent.trim() || "-";
+      const electricityBill =
+        document
+          .querySelector(
+            "div.my-3.flex.justify-between:nth-child(8) div:nth-child(2)"
+          )
+          ?.textContent.trim() || "-";
+      const otherExpenses =
+        document
+          .querySelector(
+            "div.my-3.flex.justify-between:nth-child(9) div:nth-child(2)"
+          )
+          ?.textContent.trim() || "-";
       // const total = document.querySelector('div.my-3.flex.justify-between:nth-child(12) div.text-md.font-semibold')?.textContent.trim() || '-';
-      const total = document.querySelector('div.text-md.font-semibold.text-right')?.textContent.trim() || '-';
+      const total =
+        document
+          .querySelector("div.text-md.font-semibold.text-right")
+          ?.textContent.trim() || "-";
       return {
         startPrice,
         note,
@@ -219,46 +238,36 @@ async function fetchMarketDetails(browser, market) {
       };
     });
 
-    // const detailMarket = await pageInstance.evaluate(() => {
-    //   // ดึงข้อความทั้งหมดจาก h3 และ p ภายใน div ที่มี class "prose mt-2"
-    //   const textContent = document.querySelector('div.prose.mt-2')?.innerText.trim() || '-';
-    
-    //   // ดึง src ของรูปภาพ (ซึ่งเป็นรูปแบบ base64 ในกรณีนี้)
-    //   const imageSrc = document.querySelector('div.prose.mt-2 img')?.getAttribute('src') || '-';
-    
-    //   return {
-    //     textContent,
-    //     imageSrc
-    //   };
-    // });
-
     const detailMarket = await pageInstance.evaluate(() => {
-      // ดึงข้อความทั้งหมดจาก h3 ใน div ที่มี class "prose mt-2"
-      const textElements = document.querySelectorAll('div.prose.mt-2 h3');
-      const textContent = Array.from(textElements).map(el => el.textContent.trim());
-    
-      // ดึงที่อยู่ URL ของรูปภาพทั้งหมดจาก img ใน div ที่มี class "prose mt-2"
-      const imageElements = document.querySelectorAll('div.prose.mt-2 img');
-      const imageSrcs = Array.from(imageElements).map(img => img.src);
-    
+      const textElements = document.querySelectorAll("div.prose.mt-2 h3");
+      const textContent = Array.from(textElements).map((el) =>
+        el.textContent.trim()
+      );
+
+      const imageElements = document.querySelectorAll("div.prose.mt-2 img");
+      const imageSrcs = Array.from(imageElements).map((img) => img.src);
+
       return {
         textContent,
-        imageSrcs
+        imageSrcs,
       };
     });
 
+    const imageMarket = await pageInstance.evaluate(() => {
+      const imageElements = document.querySelectorAll(
+        "div.relative.mx-auto.max-w-7xl div.bg-cover"
+      );
 
-    const imageMarket = await pageInstance.evaluate(()=> {
+      const imageMarketlist = Array.from(imageElements).map((div) => {
+        const style = window.getComputedStyle(div);
+        const bgImage = style.backgroundImage;
+        return bgImage.slice(5, -2);
+      });
 
-      const imageElements = document.querySelectorAll('relative mx-auto max-w-7xl');
-      const imageMarketlist = Array.from(imageElements).map(img => img.scr);
-      
-      // let imageUrl = element.querySelector("a img")?.getAttribute("src") || "";
-      // if (imageUrl) {
-      //   imageUrl = decodeURIComponent(imageUrl.split("?url=")[1]?.split("&")[0]);
-      // }
-      return imageMarketlist
-    })
+      return imageMarketlist;
+    });
+
+    const emptyPanels = await fetchEmptyPanels(pageInstance);
 
     market.detailMarket.push({
       marketDetail,
@@ -269,15 +278,135 @@ async function fetchMarketDetails(browser, market) {
       marketHighlights,
       additionalInfo,
       detailMarket,
-      marketLocation,
+      nearbyPlaces,
       marketContract,
-      imageMarket
+      imageMarket,
     });
+
+    market.Emptypanel = emptyPanels;
   } catch (error) {
     console.error(`Error fetching details for ${market.marketName}:`, error);
   }
 
   await pageInstance.close();
+}
+
+async function fetchEmptyPanels(pageInstance) {
+  // ฟังก์ชันสำหรับดึงจำนวนหน้าทั้งหมด
+  async function getTotalPages() {
+    return await pageInstance.evaluate(() => {
+      const paginationNav = document.querySelector(
+        'nav[aria-label="Pagination"]'
+      );
+      if (!paginationNav) return 1;
+      const buttons = paginationNav.querySelectorAll("button");
+      const pageNumbers = Array.from(buttons)
+        .map((btn) => parseInt(btn.textContent))
+        .filter((num) => !isNaN(num));
+      return pageNumbers.length > 0 ? Math.max(...pageNumbers) : 1;
+    });
+  }
+
+  let allEmptyPanels = [];
+  const totalPages = await getTotalPages();
+
+  for (let currentPage = 1; currentPage <= totalPages; currentPage++) {
+    const emptyPanels = await pageInstance.evaluate(() => {
+      function extractImageUrl(imageElement) {
+        let imageUrl = imageElement?.getAttribute("src") || "";
+        if (imageUrl.includes("?url=")) {
+          imageUrl = decodeURIComponent(
+            imageUrl.split("?url=")[1]?.split("&")[0]
+          );
+        }
+        return imageUrl;
+      }
+
+      const panelElements = document.querySelectorAll(
+        "div.flex.flex-row.rounded-md.border.border-card-border"
+      );
+
+      const emptyPanels = Array.from(panelElements).map((panel) => {
+        const imageUrl = extractImageUrl(panel.querySelector("img"));
+
+        const stallNumber =
+          panel
+            .querySelector("p.text-xl.text-secondary-500")
+            ?.textContent.trim() || "";
+        const zone =
+          panel
+            .querySelector("div.m-1.flex.flex-row.lg\\:m-0.md\\:flex-col p")
+            ?.textContent.trim() || "";
+        const areaType =
+          panel
+            .querySelector(
+              "div:nth-child(2) p.line-clamp-1.text-xs.text-text-value"
+            )
+            ?.textContent.trim() || "";
+        const size =
+        document
+            .querySelector(
+              "body > main > main > div:nth-child(2) > div.mt-4.md\\:mt-0.relative.grid.grid-cols-1.gap-4.bg-white.pb-12.md\\:grid-cols-12 > div.col-span-12.lg\\:col-span-8.flex.flex-col.gap-4 > div.rounded-md.border.border-card-border.bg-white.p-4.flex.flex-col.gap-2 > div:nth-child(2) > div.grid.w-full.px-3.py-2lg\\:px-4.py-3 > div:nth-child(1) > div > div:nth-child(3) > p"
+            )
+            ?.textContent.trim() || "";
+
+        const price =
+          panel
+            .querySelector("p.text-xl.font-bold.leading-none")
+            ?.textContent.trim() || "";
+
+        const discountText =
+          panel
+            .querySelector("p.text-xs.text-remark-800")
+            ?.textContent.trim() || "";
+        const originalPrice =
+          panel
+            .querySelector("p.md\\:mr-4.text-xs.text-red-500.line-through")
+            ?.textContent.trim() || "";
+        const discountedPrice =
+          panel
+            .querySelector("p.text-xl.font-bold.leading-none")
+            ?.textContent.trim() || "";
+
+        return {
+          stallNumber,
+          zone,
+          areaType,
+          size,
+          price,
+          discountText,
+          originalPrice,
+          discountedPrice,
+          imageUrl,
+        };
+      });
+
+      return emptyPanels;
+    });
+
+    allEmptyPanels = allEmptyPanels.concat(emptyPanels);
+
+    // คลิกปุ่มหน้าถัดไปถ้าไม่ใช่หน้าสุดท้าย
+    if (currentPage < totalPages) {
+      await pageInstance.evaluate((currentPage) => {
+        const paginationNav = document.querySelector(
+          'nav[aria-label="Pagination"]'
+        );
+        const buttons = Array.from(paginationNav.querySelectorAll("button"));
+        const nextPageButton = buttons.find(
+          (btn) => btn.textContent == (currentPage + 1).toString()
+        );
+        if (nextPageButton) {
+          nextPageButton.click();
+        }
+      }, currentPage);
+
+      // รอให้หน้าโหลด
+      await new Promise((resolve) => setTimeout(resolve, 2000));
+    }
+  }
+
+  return allEmptyPanels;
 }
 
 async function fetchMarkets(maxPages) {
